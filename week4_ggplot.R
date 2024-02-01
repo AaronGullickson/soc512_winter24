@@ -38,7 +38,7 @@ ggplot(earnings, aes(x = gender, y = wages))+
   #scale_fill_viridis_d(begin=0.25)+
   #scale_fill_manual(values = wes_palette("Moonrise2"))+
   #scale_fill_simpsons()+
-  scale_fill_hp(house = "ravenclaw")+
+  scale_fill_hp_d(option = "LunaLovegood")+
   #coord_flip()+
   facet_wrap(~race)+
   #facet_grid(education~race)+
@@ -50,3 +50,81 @@ ggplot(earnings, aes(x = gender, y = wages))+
        subtitle = "A subtitle!",
        caption = "Source: Current Population Survey 2018")
   
+
+# Conditional Barplot -----------------------------------------------------
+
+# univariate barplot
+ggplot(earnings, aes(x = education, y = after_stat(prop), group = 1))+
+  scale_y_continuous(labels = scales::percent)+
+  geom_bar(fill = "tomato", color="grey20")+
+  labs(x = "highest degree attained", y = NULL)+
+  theme_bw()
+
+# conditional barplot using color
+ggplot(earnings, aes(x = education, y = after_stat(prop), group = foreign_born, 
+                     fill=foreign_born))+
+  scale_y_continuous(labels = scales::percent)+
+  scale_fill_hp_d(option="Gryffindor")+
+  geom_bar(position = "dodge")+
+  labs(x = "highest degree attained", y = NULL, fill = "foreign born?")+
+  theme_bw()
+
+# conditional barplot by faceting
+ggplot(earnings, aes(x = education, y = after_stat(prop), group=1))+
+  scale_y_continuous(labels = scales::percent)+
+  geom_bar()+
+  facet_wrap(~foreign_born)+
+  labs(x = "highest degree attained", y = NULL)+
+  theme_bw()
+
+# conditional barplot by both
+ggplot(earnings, aes(x = education, y = after_stat(prop), group = foreign_born, 
+                     fill=foreign_born))+
+  scale_y_continuous(labels = scales::percent)+
+  scale_fill_hp_d(option="Gryffindor")+
+  geom_bar(position = "dodge")+
+  facet_wrap(~race)+
+  coord_flip()+
+  labs(x = "highest degree attained", y = NULL, fill = "foreign born?")+
+  theme_bw()
+
+# Scatterplot -------------------------------------------------------------
+
+ggplot(earnings, aes(x = age, y = wages))+
+  geom_jitter(alpha = 0.05, width = 0.7, height = 0.7)+
+  geom_smooth(method = "lm", se = FALSE, linewidth=2)+
+  geom_smooth(se = FALSE, color="tomato", linewidth=2)+
+  scale_y_log10(labels = scales::dollar)+
+  labs(y="hourly wage in US Dollars")+
+  theme_bw()
+
+ggplot(earnings, aes(x = factor(nchild), y = wages))+
+  geom_boxplot(varwidth = TRUE, fill="skyblue")+
+  scale_y_continuous(labels = scales::dollar)+
+  labs(x="number of children", y="hourly wage in US Dollars")+
+  theme_bw()
+
+
+# Conditional means -------------------------------------------------------
+
+# base R use tapply ("t-apply")
+tapply(earnings$wages, earnings$marstat, mean)
+
+# tidyverse approach
+earnings |>
+  group_by(marstat) |>
+  summarize(mean_wages = mean(wages),
+            n = n())
+
+# feed results into ggplot
+earnings |>
+  group_by(marstat) |>
+  summarize(mean_wages = mean(wages), n=n()) |>
+  ggplot(aes(x = reorder(marstat, mean_wages, mean), 
+             y = mean_wages, 
+             size=n))+
+  #geom_col()+
+  geom_point(color = "steelblue")+
+  scale_y_continuous(labels = scales::dollar)+
+  labs(x = NULL, y = "mean wages", size="sample size")+
+  theme_bw()
