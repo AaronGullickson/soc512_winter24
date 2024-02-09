@@ -10,11 +10,30 @@ author:
 format: 
   html:
     toc: true
+    self-contained: true
   pdf:
     keep-md: false
-    keep-tex: false
-editor: visual
+    keep-tex: true
+  docx:
+    toc: false
+editor: source
+execute: 
+  warning: false
+  error: false
+#  echo: false
+bibliography: references.bib
+csl: american-sociological-review.csl # you can also provide a link here
 ---
+
+```{r}
+#| label: load-stuff
+#| echo: false
+#| output: false
+
+load("stat_data/popularity.RData")
+library(tidyverse)
+library(gt)
+```
 
 # Top level header
 
@@ -26,17 +45,23 @@ editor: visual
 
 ## Quarto
 
-Quarto enables **you** to weave together content and executable code into a finished document. To *learn* more about Quarto see <https://quarto.org>.
+Quarto enables **you** to weave together content and executable code into a finished document. To *learn* more about Quarto see <https://quarto.org>. Here is an example of a parenthetical citation [@mcdaniel2011; @andrew2014].
 
-- Point 1
-- Another point
-    - Subpoint 1
-    - Good idea!
+As @abascal2015 said, you can go to the [Zotero Style Library](https://www.zotero.org/styles) to get a CSL file to style your citations and references.[^1]
 
-1. First thing
-3. Second thing
-    1. Subthing
-    
+[^1]: They did not actually say this.
+
+Here is a new paragraph. <!-- TODO: this is a comment -->
+
+-   Point 1
+-   Another point
+    -   Subpoint 1
+    -   Good idea!
+
+1.  First thing
+2.  Second thing
+    1.  Subthing
+
 > The only thing we have to fear is fear itself - and hamsters!
 
 ## Running Code
@@ -44,15 +69,51 @@ Quarto enables **you** to weave together content and executable code into a fini
 When you click the **Render** button a [document](https://www.google.com) will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
-x <- 2
-x^2
+#| label: calculate-mean
+
+# this is a comment
+mean(popularity$nominations)
 ```
 
 ```{r}
-1 + 1
+#| label: fig-scatter
+#| fig-cap: Scatterplot of the relationship between GPA and student popularity.
+#| echo: false
+
+ggplot(popularity, aes(x = pseudo_gpa, y = nominations))+
+  geom_jitter(alpha = 0.3, width = 0.2)+
+  geom_smooth(se = FALSE)+
+  labs(x="self-reported GPA in three core courses",
+       y="number of friend nominations")+
+  theme_bw()
 ```
 
-You can add options to executable code like this
+This is a text. As @fig-scatter shows, I am right.
+
+```{r}
+#| label: tbl-summary
+#| tbl-cap: Summary of student statistics by grade
+
+popularity |>
+  group_by(grade) |>
+  summarize(n = n(), 
+            mean_noms = mean(nominations),
+            prop_smoke = mean(smoker == "Smoker")) |>
+  gt() |>
+  cols_label(grade="Grade",
+             n="Sample size",
+             mean_noms="Mean friend nominations",
+             prop_smoke="Percent who smoke") |>
+  fmt_number(mean_noms, decimals=2) |>
+  fmt_percent(prop_smoke, decimals = 1) |>
+  fmt_number(grade, pattern = "{x}th", decimals = 0)
+  
+  #knitr::kable()
+```
+
+As @tbl-summary, shows, this is cool.
+
+You can add options to executable code like this.
 
 ```{r}
 #| echo: false
@@ -60,3 +121,5 @@ You can add options to executable code like this
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
+
+# References
