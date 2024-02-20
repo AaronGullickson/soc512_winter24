@@ -1,0 +1,11 @@
+
+infile dictionary {
+
+_column(1) 	 numeric 		 BALLOT 		 %20f 		 "ballot used for interview" 
+_column(3) 	 numeric 		 AGE 		 %20f 		 "age of respondent" 
+_column(7) 	 numeric 		 EDUC 		 %20f 		 "highest year of school completed" 
+_column(11) 	 numeric 		 SEX 		 %20f 		 "respondents sex" 
+_column(15) 	 numeric 		 ABANY 		 %20f 		 "abortion if woman wants for any reason" 
+_column(20) 	 numeric 		 YEAR 		 %20f 		 "GSS year for this respondent" 
+_column(25) 	 numeric 		 ID_ 		 %20f 		 "Respondent id number" 
+}

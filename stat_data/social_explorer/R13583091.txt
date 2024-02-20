@@ -1,0 +1,167 @@
+--------------------------------------------------------------------------------
+Codebook for Social Explorer report ID: R13583091
+--------------------------------------------------------------------------------
+
+Contents
+    - Table Summary
+    - Data Dictionary
+    - Citation and Use
+
+
+--------------------------------------------------------------------------------
+Table Summary
+--------------------------------------------------------------------------------
+ 
+Survey:           ACS 2022 (5-Year Estimates)
+Dataset:          Social Explorer Tables: ACS 2022 (5-Year Estimates)
+Tables:
+
+      1. Total Population
+         Universe:  Total Population
+         Name:      A00001
+         Variables:
+            A00001_001:   Total Population
+
+
+      2. Hispanic or Latino by Race
+         Universe:  Total Population
+         Name:      A04001
+         Variables:
+            A04001_001:   Total Population
+            A04001_002:      Not Hispanic or Latino:
+            A04001_003:         White Alone
+            A04001_004:         Black or African American Alone
+            A04001_005:         American Indian and Alaska Native Alone
+            A04001_006:         Asian Alone
+            A04001_007:         Native Hawaiian and Other Pacific Islander Alone
+            A04001_008:         Some Other Race Alone
+            A04001_009:         Two or More Races
+            A04001_010:      Hispanic or Latino:
+            A04001_011:         White Alone
+            A04001_012:         Black or African American Alone
+            A04001_013:         American Indian and Alaska Native Alone
+            A04001_014:         Asian Alone
+            A04001_015:         Native Hawaiian and Other Pacific Islander Alone
+            A04001_016:         Some Other Race Alone
+            A04001_017:         Two or More Races
+
+
+      3. Highest Educational Attainment for Population 25 Years and Over
+         Universe:  Population 25 Years and Over
+         Name:      A12002
+         Variables:
+            A12002_001:   Population 25 Years and Over:
+            A12002_002:      Less than High School
+            A12002_003:      High School Graduate (Includes Equivalency)
+            A12002_004:      Some College
+            A12002_005:      Bachelor's Degree
+            A12002_006:      Master's Degree
+            A12002_007:      Professional School Degree
+            A12002_008:      Doctorate Degree
+
+
+
+
+
+ 
+ 
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Variables 
+      FIPS:           FIPS
+      QName:          Qualifying Name
+      STUSAB:         State Postal Abbreviation
+      SUMLEV:         Summary Level
+      GEOCOMP:        Geographic Component
+      US:             US
+      REGION:         Census Region
+      DIVISION:       Census Division
+      STATE:          State (FIPS Code)
+      COUNTY:         County of current residence
+      COUSUB:         County Subdivision (FIPS)
+      PLACE:          Place (FIPS Code)
+      TRACT:          Census Tract
+      BLKGRP:         Block Group
+      CONCIT:         Consolidated City
+      AIANHH:         American Indian Area/Alaska Native Area/ Hawaiian Home Land (Census)
+      AIANHHFP:       American Indian Area/Alaska Native Area/ Hawaiian Home Land (FIPS)
+      AIHHTLI:        American Indian Trust Land/Hawaiian Home Land Indicator
+      AITS:           American Indian Tribal Subdivision (FIPS)
+      ANRC:           Alaska Native Regional Corporation (FIPS)
+      CBSA:           Metropolitan and Micropolitan Statistical Area
+      CSA:            Combined Statistical Area
+      METDIV:         Metropolitan Statistical Area-Metropolitan Division
+      MACC:           Metropolitan Area Central City
+      MEMI:           Metropolitan/Micropolitan Indicator Flag
+      NECTA:          New England City and Town Area
+      CNECTA:         New England City and Town Combined Statistical Area
+      NECTADIV:       New England City and Town Area Division
+      UA:             Urban Area
+      CDCURR:         Current Congressional District ***
+      SLDU:           State Legislative District Upper
+      SLDL:           State Legislative District Lower
+      ZCTA3:          ZIP Code Tabulation Area (3-digit)
+      ZCTA5:          5-digit ZIP Code Tabulation Area
+      SUBMCD:         Subminor Civil Division (FIPS)
+      SDELM:          State-School District (Elementary)
+      SDSEC:          State-School District (Secondary)
+      SDUNI:          State-School District (Unified)
+      UR:             Urban/Rural
+      PCI:            Principal City Indicator
+      PUMA5:          Public Use Microdata Area – 5% File
+      NAME:           Area Name
+      BTTR:           Tribal Tract
+      BTBG:           Tribal Block Group
+      PLACESE:        Place (State FIPS + Place FIPS)
+      A00001_001:     Total Population
+      A04001_001:     Total Population
+      A04001_002:     Total Population: Not Hispanic or Latino
+      A04001_003:     Total Population: Not Hispanic or Latino: White Alone
+      A04001_004:     Total Population: Not Hispanic or Latino: Black or African American Alone
+      A04001_005:     Total Population: Not Hispanic or Latino: American Indian and Alaska Native Alone
+      A04001_006:     Total Population: Not Hispanic or Latino: Asian Alone
+      A04001_007:     Total Population: Not Hispanic or Latino: Native Hawaiian and Other Pacific Islander Alone
+      A04001_008:     Total Population: Not Hispanic or Latino: Some Other Race Alone
+      A04001_009:     Total Population: Not Hispanic or Latino: Two or More Races
+      A04001_010:     Total Population: Hispanic or Latino
+      A04001_011:     Total Population: Hispanic or Latino: White Alone
+      A04001_012:     Total Population: Hispanic or Latino: Black or African American Alone
+      A04001_013:     Total Population: Hispanic or Latino: American Indian and Alaska Native Alone
+      A04001_014:     Total Population: Hispanic or Latino: Asian Alone
+      A04001_015:     Total Population: Hispanic or Latino: Native Hawaiian and Other Pacific Islander Alone
+      A04001_016:     Total Population: Hispanic or Latino: Some Other Race Alone
+      A04001_017:     Total Population: Hispanic or Latino: Two or More Races
+      A12002_001:     Population 25 Years and Over:
+      A12002_002:     Population 25 Years and Over: Less than High School
+      A12002_003:     Population 25 Years and Over: High School Graduate (Includes Equivalency)
+      A12002_004:     Population 25 Years and Over: Some College
+      A12002_005:     Population 25 Years and Over: Bachelor's Degree
+      A12002_006:     Population 25 Years and Over: Master's Degree
+      A12002_007:     Population 25 Years and Over: Professional School Degree
+      A12002_008:     Population 25 Years and Over: Doctorate Degree
+
+
+
+
+--------------------------------------------------------------------------------
+Citation and Use of Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* Publications and research reports employing the data
+  must cite it appropriately. The citation should include the following:
+
+	  www.socialexplorer.com
+	  New York City, NY: Social Explorer 2024
+
+
+* Citations should also include the URL for this report:
+
+    http://www.socialexplorer.com/pub/reportdata/HtmlResults.aspx?reportid=R13583091
+
+If you have any questions contact info@socialexplorer.com
