@@ -52,12 +52,67 @@ acs <- acs |>
 # check yourself
 table(acs$SEI==0, acs$sei==0, exclude=NULL)
 
+# encode sex into a factor variable
+#SEX                 Sex
+#1                   Male
+#2                   Female
+#9                   Missing/blank
+acs <- acs |>
+  mutate(sex = factor(SEX,
+                      levels = c(1, 2),
+                      labels = c("Male", "Female")))
 
+# case_when option
+acs <- acs |>
+  mutate(sex = factor(case_when(
+    SEX == 1 ~ "Male",
+    SEX == 2 ~ "Female"
+  )))
+
+# case when just applies nested ifelse statements, which you could do by hand
+# but you shouldn't!
+#factor(ifelse(acs$SEX == 1, "Male", 
+#              ifelse(acs$SEX == 2, "Female", NA)))
+
+# check yourself
+table(acs$SEX, acs$sex, exclude = NULL)
+
+# encode education into categorical variable
+acs <- acs |>
+  mutate(degree = factor(case_when(
+    EDUCD <= 1 | EDUCD == 999 ~ NA,
+    EDUCD < 62 ~ "LHS",
+    EDUCD < 81 ~ "HS",
+    EDUCD < 101 ~ "AA",
+    EDUCD < 114 ~ "BA",
+    TRUE ~ "Grad"), 
+    levels = c("LHS", "HS", "AA", "BA", "Grad")))
+
+table(acs$EDUCD, acs$degree, exclude = NULL)
+
+# encode marital status
+acs <- acs |>
+  mutate(marst = factor(case_when(
+    MARST == 9 ~ NA,
+    MARST <= 2 ~ "Married",
+    MARST <= 4 ~ "Divorced/Separated",
+    MARST == 5 ~ "Widowed",
+    MARST == 6 ~ "Never Married"
+  ), 
+  levels = c("Never Married", "Married", "Divorced/Separated", "Widowed")))
+
+table(acs$MARST, acs$marst, exclude = NULL)
+
+# encode missing values for age
+acs <- acs |>
+  mutate(age = ifelse(AGE == 999, NA, AGE))
+
+table(acs$age, acs$AGE==999, exclude=NULL)
 
 # Get final dataset -------------------------------------------------------
 
 
 acs <- acs |>
-  select(sei)
+  select(age, sei, sex, degree, marst)
 
 save(acs, file="acs.RData")
