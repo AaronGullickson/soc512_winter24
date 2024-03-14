@@ -1,10 +1,11 @@
-
-
+###################################
+# Week 10
+# Programming with R
+# Sociology 412/512, Winter 2024
+###################################
 
 # Load libraries ----------------------------------------------------------
-
 library(tidyverse)
-
 
 # Load tract data ---------------------------------------------------------
 tracts <- read_csv("stat_data/social_explorer/R13598833_SL140.csv",
@@ -26,9 +27,6 @@ tracts <- read_csv("stat_data/social_explorer/R13598833_SL140.csv",
          pop_race_latino = SE_B04001_010) |>
   select(tract_id, starts_with("county_"), starts_with("pop_")) |>
   filter(pop_total > 0)
-
-
-
 
 # Create a custom function ------------------------------------------------
 
@@ -56,7 +54,6 @@ factorial_this <- function(x) {
 factorial_this(5)
 factorial_this(10)
 
-
 # Calculate Theil's H for a Casee --------------------------------------------
 
 tracts_multnomah <- tracts |>
@@ -72,12 +69,17 @@ prop_race_county <- tracts_multnomah |>
 entropy_county <- sum(prop_race_county * log(1 / prop_race_county), 
                       na.rm = TRUE)
 
+# We could do it with a big mutate command, but it would be a lot of 
+# variables and a lot of code
+
 #tracts_multnomah |>
 #  mutate(prop_white = pop_race_white / pop_total,
 #         prop_black = pop_race_black / pop_total,
 #         ...,
 #         entropy = prop_white * log(1/prop_white)+...)
 
+# lets use a pivot longer instead to do it more efficiently, by putting each
+# racial group on a separate line
 tracts_multnomah <- tracts_multnomah |>
   pivot_longer(cols = starts_with("pop_race_"), names_prefix = "pop_race_",
                names_to = "race", values_to = "pop") |>
@@ -138,3 +140,95 @@ tracts |>
 tracts |>
   filter(county_name == "New York County, New York") |>
   calc_theil_h()
+
+# For loops ---------------------------------------------------------------
+
+county_names <- unique(tracts$county_name)
+
+for(i in 1:length(county_names)) {
+  print(county_names[i])
+}
+
+for(county_name in county_names) {
+  print(county_name)
+}
+
+theil_h <- NULL
+for(name in county_names) {
+  h <- tracts |>
+    filter(county_name == name) |>
+    calc_theil_h()
+  #theil_h <- c(theil_h, h)
+  theil_h <- theil_h |>
+    bind_rows(tibble(county_name = name, theil_h = h))
+}
+
+# Mapping -----------------------------------------------------------------
+
+x <- list(c(2,3,4,5), c(7,8,9,10))
+
+map(x, mean)
+map_dbl(x, mean)
+
+lapply(x, mean)
+sapply(x, mean)
+
+tracts |>
+  group_by(county_id) |>
+  group_split() |>
+  map_dbl(calc_theil_h)
+
+counties <- tracts |>
+  group_by(county_id) |>
+  group_split() |>
+  map(function(x) {
+    h <- calc_theil_h(x)
+    return(tibble(county_name = unique(x$county_name),
+                  county_id = unique(x$county_id),
+                  theil_h = h))
+  }) |>
+  bind_rows()
+
+# Calculate dissimilarity index -------------------------------------------
+
+# white/black dissimilarity index
+
+tracts_multnomah <- tracts |>
+  filter(county_name == "Multnomah County, Oregon")
+
+a <- tracts_multnomah$pop_race_white/sum(tracts_multnomah$pop_race_white)
+b <- tracts_multnomah$pop_race_black/sum(tracts_multnomah$pop_race_black)
+50 * sum(abs(a-b))
+
+calc_dissimilarity <- function(tracts_county) {
+  a <- tracts_county$pop_race_white/sum(tracts_county$pop_race_white)
+  b <- tracts_county$pop_race_black/sum(tracts_county$pop_race_black)
+  return(50 * sum(abs(a-b)))
+}
+
+tracts |>
+  filter(county_name == "McPherson County, South Dakota") |>
+  calc_dissimilarity()
+
+tracts |>
+  filter(county_name == "Wayne County, Michigan") |>
+  calc_dissimilarity()
+
+tracts |>
+  filter(county_name == "Coles County, Illinois") |>
+  calc_dissimilarity()
+
+tracts |>
+  filter(county_name == "Cook County, Illinois") |>
+  calc_dissimilarity()
+
+counties <- tracts |>
+  group_by(county_id) |>
+  group_split() |>
+  map(function(x) {
+    d <- calc_dissimilarity(x)
+    return(tibble(county_name = unique(x$county_name),
+                  county_id = unique(x$county_id),
+                  dissimilarity = d))
+  }) |>
+  bind_rows()
